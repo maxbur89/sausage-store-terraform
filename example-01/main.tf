@@ -8,14 +8,14 @@ terraform {
 }
 
 provider "yandex" {
-  token     = "AQAAAAAThAnXAATuwXAcoV4GSUZqh-UkLMreFfw"
-  cloud_id  = "b1g3jddf4nv5e9okle7p"
-  folder_id = "b1gk960dgke8q6mb3j64"
-  zone      = "ru-central1-b"
+  token     = var.token
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
+  zone      = var.zone
 }
 
 resource "yandex_compute_instance" "vm-burunov-m" {
-  name = "terraform-burunov-m"
+  name                      = "terraform-burunov-m"
   allow_stopping_for_update = true
 
   resources {
@@ -32,10 +32,6 @@ resource "yandex_compute_instance" "vm-burunov-m" {
   metadata = {
     user-data = "${file("./meta.txt")}"
   }
-
-  # metadata = {
-  #  ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
-  # }
 
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-burunov-m-1.id
