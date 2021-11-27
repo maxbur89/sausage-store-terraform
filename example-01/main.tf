@@ -3,7 +3,7 @@ resource "yandex_compute_instance" "vm-burunov-m" {
   allow_stopping_for_update = true
 
   resources {
-    cores  = 2
+    cores  = 4
     memory = 4
   }
 
