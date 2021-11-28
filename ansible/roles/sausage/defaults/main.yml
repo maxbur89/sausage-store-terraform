@@ -1,5 +1,8 @@
 ---
 # ansible-vault encrypt_string "unguQu7u"
+# cat /home/mxl/ansible_vault_pwd 
+# yoBei8fu
+
 the_secret: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62376135346262393230656166363365366331656465666661643037346139633362363035313430
