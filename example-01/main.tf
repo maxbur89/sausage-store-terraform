@@ -18,18 +18,18 @@ resource "yandex_compute_instance" "vm-burunov-m" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-burunov-m-1.id
+    subnet_id = yandex_vpc_subnet.subnet-terraform-burunov-m-1.id
     nat       = true
   }
 }
 
-resource "yandex_vpc_network" "network-burunov-m-1" {
-  name = "network-burunov-m-1"
+resource "yandex_vpc_network" "network-terraform-burunov-m-1" {
+  name = "network-terraform-burunov-m-1"
 }
 
-resource "yandex_vpc_subnet" "subnet-burunov-m-1" {
-  name           = "subnet-burunov-m-1"
+resource "yandex_vpc_subnet" "subnet-terraform-burunov-m-1" {
+  name           = "subnet-terraform-burunov-m-1"
   zone           = "ru-central1-b"
-  network_id     = yandex_vpc_network.network-burunov-m-1.id
+  network_id     = yandex_vpc_network.network-terraform-burunov-m-1.id
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
