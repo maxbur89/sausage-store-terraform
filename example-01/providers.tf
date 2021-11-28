@@ -12,13 +12,12 @@ terraform {
     region   = "ru-central1-b"
     key      = "terraform.tfstate"
 
-    access_key = "_KyUUgEBW2bNd50GJcs6"
-    secret_key = "5XaNiqK4nKggWCOPrksfnYusJim8bPhtlZYvciPT"
+    #access_key = var.access_key
+    #secret_key = var.secret_key
 
     skip_region_validation      = true
     skip_credentials_validation = true
   }
-
 }
 
 provider "yandex" {

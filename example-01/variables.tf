@@ -21,3 +21,15 @@ variable "zone" {
   type        = string
   default     = "ru-central1-b"
 }
+
+variable "access_key" {
+  description = "access_key for access S3 Yandex Cloud"
+  type        = string
+  default     = ""
+}
+
+variable "secret_key" {
+  description = "secret_key for access S3 Yandex Cloud"
+  type        = string
+  default     = ""
+}
