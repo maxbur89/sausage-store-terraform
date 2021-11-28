@@ -39,3 +39,9 @@ variable "image_id" {
   type        = string
   default     = "fd8db2s90v5knmg1p7dv"
 }
+
+variable "size" {
+  description = "disk size"
+  type        = string
+  default     = "10"
+}

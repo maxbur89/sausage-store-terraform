@@ -1,0 +1,10 @@
+---
+# Playbook для настройка sausage
+# ansible-galaxy install -v -f -r requirements.yml
+
+# Sausage
+- name: Sausage store
+  hosts: servers_sausage
+  become: True
+  roles:
+    - role: sausage

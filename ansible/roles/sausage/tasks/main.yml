@@ -1,0 +1,31 @@
+---
+# tasks file for base_debian
+
+- name: Install base packets
+  apt:
+       update_cache: yes
+       state: present
+       pkg:
+       - sssd
+       - npm
+       - nodejs
+       - openjdk-16-jdk
+       - maven
+
+- name: Add the user jarservice
+  user:
+    name: jarservice
+    password: "{{ the_secret | string | password_hash('sha512') }}"
+    
+- name: Add the user www-data
+  user:
+    name: www-data
+    password: "{{ the_secret | string | password_hash('sha512') }}"
+
+- name: Create a directory /var/www-data if it does not exist
+  file:
+    path: /var/www-data
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
