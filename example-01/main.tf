@@ -4,13 +4,13 @@ resource "yandex_compute_instance" "vm-burunov-m" {
 
   resources {
     cores  = 4
-    memory = 4
+    memory = 8
   }
 
   boot_disk {
     initialize_params {
       image_id = var.image_id
-      size = var.size
+      size     = var.size
     }
   }
 
