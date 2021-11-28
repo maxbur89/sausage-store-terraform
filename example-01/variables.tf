@@ -33,3 +33,9 @@ variable "secret_key" {
   type        = string
   default     = ""
 }
+
+variable "image_id" {
+  description = "image_id"
+  type        = string
+  default     = "fd8db2s90v5knmg1p7dv"
+}

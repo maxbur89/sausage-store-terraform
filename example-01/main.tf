@@ -9,7 +9,7 @@ resource "yandex_compute_instance" "vm-burunov-m" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd8db2s90v5knmg1p7dv"
+      image_id = var.image_id
     }
   }
 
