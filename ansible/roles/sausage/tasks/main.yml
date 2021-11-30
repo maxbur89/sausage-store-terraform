@@ -14,8 +14,8 @@
 
 - name: Add the user jarservice
   user:
-    name: {{ username }}
-    password: "{{ passwd | string | password_hash('sha512') }}"
+    name: "{{ item.username }}"
+    password: "{{ item.the_passwd | string | password_hash('sha512') }}"
   with_items:
     - "{{ users }}"
 
