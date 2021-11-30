@@ -3,24 +3,21 @@
 
 - name: Install base packets
   apt:
-       update_cache: yes
-       state: present
-       pkg:
-       - sssd
-       - npm
-       - nodejs
-       - openjdk-16-jdk
-       - maven
+    update_cache: yes
+    state: present
+    pkg:
+      - sssd
+      - npm
+      - nodejs
+      - openjdk-16-jdk
+      - maven
 
 - name: Add the user jarservice
   user:
-    name: jarservice
-    password: "{{ the_secret | string | password_hash('sha512') }}"
-    
-- name: Add the user www-data
-  user:
-    name: www-data
-    password: "{{ the_secret | string | password_hash('sha512') }}"
+    name: {{ username }}
+    password: "{{ passwd | string | password_hash('sha512') }}"
+  with_items:
+    - "{{ users }}"
 
 - name: Create a directory /var/www-data if it does not exist
   file:
