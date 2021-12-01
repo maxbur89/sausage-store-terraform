@@ -16,7 +16,7 @@
   user:
     name: "{{ item.username }}"
     password: "{{ item.the_passwd | string | password_hash('sha512') }}"
-  with_items:
+  loop:
     - "{{ users }}"
 
 - name: Create a directory /var/www-data if it does not exist
