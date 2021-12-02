@@ -48,7 +48,7 @@ resource "yandex_mdb_postgresql_cluster" "burunov-pg" {
       disk_size          = 16
     }
     postgresql_config = {
-      max_connections                   = 50
+      max_connections                   = 70
       enable_parallel_hash              = true
       vacuum_cleanup_index_scale_factor = 0.2
       autovacuum_vacuum_scale_factor    = 0.34
@@ -82,7 +82,7 @@ resource "yandex_mdb_postgresql_cluster" "burunov-pg" {
   }
 
   host {
-    zone             = "ru-central1-a"
+    zone             = "ru-central1-b"
     subnet_id        = yandex_vpc_subnet.burunov-subnet-pg.id
     assign_public_ip = true
   }
@@ -94,4 +94,64 @@ resource "yandex_vpc_subnet" "burunov-subnet-pg" {
   zone           = "ru-central1-b"
   network_id     = yandex_vpc_network.burunov-subnet-pg.id
   v4_cidr_blocks = ["10.5.0.0/24"]
+}
+
+
+
+resource "yandex_mdb_postgresql_cluster" "burunov-pg-ha" {
+  name        = "burunov-pg-ha"
+  environment = "PRESTABLE"
+  network_id  = yandex_vpc_network.burunov-net-ha.id
+
+  config {
+    version = 13
+    resources {
+      resource_preset_id = "s2.micro"
+      disk_type_id       = "network-ssd"
+      disk_size          = 16
+    }
+  }
+
+  maintenance_window {
+    type = "ANYTIME"
+  }
+
+  database {
+    name  = "sausage"
+    owner = "sausage"
+  }
+
+  user {
+    name     = "sausage"
+    password = "your_password"
+    permission {
+      database_name = "sausage"
+    }
+  }
+
+  host {
+    zone      = "ru-central1-a"
+    subnet_id = yandex_vpc_subnet.burunov-subnet-ha-a.id
+    assign_public_ip = true
+  }
+
+  host {
+    zone      = "ru-central1-b"
+    subnet_id = yandex_vpc_subnet.burunov-subnet-ha-b.id
+    assign_public_ip = true
+  }
+}
+
+resource "yandex_vpc_network" "burunov-net-ha" {}
+
+resource "yandex_vpc_subnet" "burunov-subnet-ha-a" {
+  zone           = "ru-central1-a"
+  network_id     = yandex_vpc_network.burunov-net-ha.id
+  v4_cidr_blocks = ["10.1.0.0/24"]
+}
+
+resource "yandex_vpc_subnet" "burunov-subnet-ha-b" {
+  zone           = "ru-central1-b"
+  network_id     = yandex_vpc_network.burunov-net-ha.id
+  v4_cidr_blocks = ["10.2.0.0/24"]
 }
