@@ -213,9 +213,10 @@ resource "yandex_mdb_mongodb_cluster" "burunov-mongodb-single" {
     password = "your_password"
     permission {
       database_name = "sausage"
+      roles = ["readWrite", "mdbDbAdmin"]
     }
   }
-
+  
   resources {
     resource_preset_id = "b1.nano"
     disk_size          = 16
