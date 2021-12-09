@@ -71,7 +71,6 @@ resource "yandex_mdb_postgresql_cluster" "burunov-pg" {
   user {
     name       = "sausage"
     password   = "your_password"
-    grants = "ALL"
     conn_limit = 50
     permission {
       database_name = "sausage"
@@ -180,4 +179,56 @@ resource "yandex_vpc_subnet" "burunov-subnet-ha-b" {
   zone           = "ru-central1-b"
   network_id     = yandex_vpc_network.burunov-net-ha.id
   v4_cidr_blocks = ["10.2.0.0/24"]
+}
+
+# MONGODB
+resource "yandex_vpc_network" "burunov-network-mongodb-single" {}
+
+resource "yandex_vpc_subnet" "burunov-subnet-mongodb-single" {
+  name           = "burunov-subnet-mongodb-single"
+  zone           = "ru-central1-a"
+  network_id     = yandex_vpc_network.burunov-network-mongodb-single.id
+  v4_cidr_blocks = ["10.1.0.0/24"]
+}
+
+resource "yandex_mdb_mongodb_cluster" "burunov-mongodb-single" {
+  name        = "burunov-mongodb-single"
+  environment = "PRESTABLE"
+  network_id  = yandex_vpc_network.burunov-network-mongodb-single.id
+
+  cluster_config {
+    version = "4.4"
+  }
+
+  labels = {
+    test_key = "test_value"
+  }
+
+  database {
+    name = "sausage"
+  }
+
+  user {
+    name     = "sausage"
+    password = "your_password"
+    permission {
+      database_name = "sausage"
+    }
+  }
+
+  resources {
+    resource_preset_id = "b1.nano"
+    disk_size          = 16
+    disk_type_id       = "network-hdd"
+  }
+
+  host {
+    zone_id          = "ru-central1-a"
+    subnet_id        = yandex_vpc_subnet.burunov-subnet-mongodb-single.id
+    assign_public_ip = true
+  }
+
+  maintenance_window {
+    type = "ANYTIME"
+  }
 }
