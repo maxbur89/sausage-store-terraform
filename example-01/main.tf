@@ -129,15 +129,40 @@ resource "yandex_mdb_postgresql_cluster" "burunov-pg-ha" {
     }
   }
 
+  user {
+    name     = "read_user"
+    password = "your_password"
+    permission {
+      database_name = "sausage"
+    }
+  }
+
+  user {
+    name     = "write_user"
+    password = "your_password"
+    permission {
+      database_name = "sausage"
+    }
+  }
+
+  user {
+    name     = "admin_user"
+    password = "your_password"
+    permission {
+      database_name = "sausage"
+    }
+  }
+
+
   host {
-    zone      = "ru-central1-a"
-    subnet_id = yandex_vpc_subnet.burunov-subnet-ha-a.id
+    zone             = "ru-central1-a"
+    subnet_id        = yandex_vpc_subnet.burunov-subnet-ha-a.id
     assign_public_ip = true
   }
 
   host {
-    zone      = "ru-central1-b"
-    subnet_id = yandex_vpc_subnet.burunov-subnet-ha-b.id
+    zone             = "ru-central1-b"
+    subnet_id        = yandex_vpc_subnet.burunov-subnet-ha-b.id
     assign_public_ip = true
   }
 }
