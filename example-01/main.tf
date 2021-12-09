@@ -71,6 +71,7 @@ resource "yandex_mdb_postgresql_cluster" "burunov-pg" {
   user {
     name       = "sausage"
     password   = "your_password"
+    grants = "ALL"
     conn_limit = 50
     permission {
       database_name = "sausage"
