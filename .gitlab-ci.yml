@@ -3,13 +3,23 @@ stages:
 
 deploy:
     stage: deploy
+    image: docker:stable-dind
+    services:
+      - docker:dind
     before_script:
       - mkdir -p ~/.kube
       - chmod 700 ~/.kube
-      - echo "$KUBECONFIG" >> ~/.ssh/known_hosts
-      - chmod 644 ~/.ssh/known_hosts
+      - echo "$KUBECONFIG" >> ~/.kube/config
+      - chmod 644 ~/.kube/config
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl
+      - mv ./kubectl /usr/local/bin/kubectl
     script:
-      - echo "test"
+      - kubectl apply -f ./kubernetes/all
+      - kubectl apply -f ./kubernetes/backend
+      - kubectl apply -f ./kubernetes/backend-report
+      - kubectl apply -f ./kubernetes/frontend
     when: manual
     environment:
-        name: deploy
+        name: kubernetes
+        url: https://00-burunov-m.k8s.praktikum-services.tech/
