@@ -1,0 +1,15 @@
+stages:
+    - deploy
+
+deploy:
+    stage: deploy
+    before_script:
+      - mkdir -p ~/.kube
+      - chmod 700 ~/.kube
+      - echo "$KUBECONFIG" >> ~/.ssh/known_hosts
+      - chmod 644 ~/.ssh/known_hosts
+    script:
+      - echo "test"
+    when: manual
+    environment:
+        name: deploy
