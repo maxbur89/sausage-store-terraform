@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: gitlab.praktikum-services.ru:5050/00_burunov_m/sausage-store/sausage-store-frontend:k8s-1
+          image: gitlab.praktikum-services.ru:5050/00_burunov_m/sausage-store/sausage-store-frontend:latest
           imagePullPolicy: Always
           volumeMounts:
               - name: nginx-conf
