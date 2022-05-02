@@ -3,7 +3,7 @@ stages:
 
 deploy:
     stage: deploy
-    image: docker:stable-dind
+    image: debian:stable-slim
     services:
       - docker:dind
     before_script:
