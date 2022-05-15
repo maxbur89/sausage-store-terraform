@@ -18,6 +18,16 @@ spec:
       labels:
         app: frontend
     spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - frontend
       containers:
         - name: frontend
           image: gitlab.praktikum-services.ru:5050/00_burunov_m/sausage-store/sausage-store-frontend:latest
@@ -29,14 +39,15 @@ spec:
                 readOnly: true
           env:
             - name: SPRING_CLOUD_VAULT_HOST
-              value: 51.250.7.70
+              valueFrom:
+                secretKeyRef:
+                  name: spring-cloud-vault-host
+                  key: spring-cloud-vault-host
             - name: SPRING_CLOUD_VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: spring-cloud-vault-token
                   key: spring-cloud-vault-token
-            - name: DEFAULT_HOST
-              value: sausage-store-backend
           ports:
             - name: frontend
               containerPort: 8080
