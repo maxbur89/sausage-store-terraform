@@ -22,18 +22,11 @@ spec:
           image: gitlab.praktikum-services.ru:5050/00_burunov_m/sausage-store/sausage-store-backend-report:latest
           imagePullPolicy: Always
           env:
-            - name: SPRING_DATA_MONGODB_URL
-              value: "mongodb://maxbur89:Testusr1234@rc1b-8c1wqecig1kl0mi4.mdb.yandexcloud.net:27018/sausagedb?tls=true"
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: "Testusr1234"
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://rc1b-ddr4cnexjyd5olyl.mdb.yandexcloud.net:6432/sausages"
-            - name: SPRING_DATASOURCE_USERNAME
-              value: "maxbur89"
-            - name: SPRING_FLYWAY_ENABLED
-              value: "false"
             - name: SPRING_CLOUD_VAULT_HOST
-              value: 51.250.7.70
+              valueFrom:
+                secretKeyRef:
+                  name: spring-cloud-vault-host
+                  key: spring-cloud-vault-host
             - name: SPRING_CLOUD_VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
