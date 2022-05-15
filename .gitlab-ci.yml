@@ -1,0 +1,28 @@
+stages:
+    - deploy
+
+deploy:
+    stage: deploy
+    image: debian:stable-slim
+    services:
+      - docker:dind
+    before_script:
+      - mkdir -p ~/.kube
+      - chmod 700 ~/.kube
+      - echo "$KUBECONFIG" >> ~/.kube/config
+      - chmod 644 ~/.kube/config
+      - apt update && apt install -y curl
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl
+      - mv ./kubectl /usr/local/bin/kubectl
+    script:
+      - kubectl apply -f ./kubernetes/all
+      - kubectl apply -f ./kubernetes/backend
+      - kubectl apply -f ./kubernetes/backend-report
+      - kubectl apply -f ./kubernetes/frontend
+    after_script:
+      - rm ~/.kube/config
+    when: manual
+    environment:
+        name: kubernetes
+        url: https://00-burunov-m.k8s.praktikum-services.tech/
