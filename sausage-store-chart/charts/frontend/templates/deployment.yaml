@@ -2,14 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-{{ .Release.Name }}
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app: frontend
+    app.kubernetes.io/name: sausage-frontend
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: sausage-store
+    env: "{{ .Values.environment }}"
 spec:
-  replicas: 3
-  revisionHistoryLimit: 15
+  replicas: "{{ .Values.replicas }}"
+  revisionHistoryLimit: "{{ .Values.revisionHistoryLimit }}"
   strategy:
-    type: Recreate
+    type: "{{ .Values.strategy.type }}"
   selector:
     matchLabels:
       app: frontend
@@ -30,8 +39,8 @@ spec:
                 - frontend
       containers:
         - name: frontend
-          image: gitlab.praktikum-services.ru:5050/00_burunov_m/sausage-store/sausage-store-frontend:latest
-          imagePullPolicy: Always
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
           volumeMounts:
               - name: nginx-conf
                 mountPath: /etc/nginx/conf.d/default.conf
@@ -50,7 +59,7 @@ spec:
                   key: spring-cloud-vault-token
           ports:
             - name: frontend
-              containerPort: 8080
+              containerPort: "{{ .Values.service.targetPort }}"
       imagePullSecrets:
         - name: docker-config-secret
       volumes:
