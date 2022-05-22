@@ -5,7 +5,7 @@ metadata:
   name: backend-{{ .Release.Name }}
   namespace: "{{ .Release.Namespace }}"
   labels:
-    app: backend
+    app: "{{ .Chart.Name }}"
     app.kubernetes.io/name: sausage-backend
     app.kubernetes.io/instance: "{{ .Release.Name }}"
     app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
@@ -20,15 +20,15 @@ spec:
   strategy:
     type: "{{ .Values.strategy.type }}"
     rollingUpdate:
-      maxUnavailable: "{{ .Values.strategy.rollingUpdate.maxUnavailable }}"
-      maxSurge:  "{{ .Values.strategy.rollingUpdate.maxSurge }}"
+      maxUnavailable: {{ .Values.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge:  {{ .Values.strategy.rollingUpdate.maxSurge }}
   selector:
     matchLabels:
-      app: backend
+      app: "{{ .Chart.Name }}"
   template:
     metadata:
       labels:
-        app: backend
+        app: "{{ .Chart.Name }}"
     spec:
       containers:
         - name: backend

@@ -5,7 +5,7 @@ metadata:
   name: frontend-{{ .Release.Name }}
   namespace: "{{ .Release.Namespace }}"
   labels:
-    app: frontend
+    app: "{{ .Chart.Name }}"
     app.kubernetes.io/name: sausage-frontend
     app.kubernetes.io/instance: "{{ .Release.Name }}"
     app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
@@ -21,11 +21,11 @@ spec:
     type: "{{ .Values.strategy.type }}"
   selector:
     matchLabels:
-      app: frontend
+      app: "{{ .Chart.Name }}"
   template:
     metadata:
       labels:
-        app: frontend
+        app: "{{ .Chart.Name }}"
     spec:
       affinity:
         nodeAffinity:

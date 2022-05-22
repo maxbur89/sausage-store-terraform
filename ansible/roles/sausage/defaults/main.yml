@@ -1,6 +1,6 @@
 ---
 # ansible-vault encrypt_string "unguQu7u"
-# cat /home/mxl/ansible_vault_pwd 
+# cat /home/mxl/ansible_vault_pwd
 # yoBei8fu
 
 users:
