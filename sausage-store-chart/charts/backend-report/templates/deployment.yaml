@@ -5,14 +5,7 @@ metadata:
   name: backend-report-{{ .Release.Name }}
   namespace: "{{ .Release.Namespace }}"
   labels:
-    app: "{{ .Chart.Name }}"
-    app.kubernetes.io/name: sausage-backend-report
-    app.kubernetes.io/instance: "{{ .Release.Name }}"
-    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
-    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
-    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    app.kubernetes.io/component: backend-report
-    app.kubernetes.io/part-of: sausage-store
+    {{ include "sausage-store.labels" . | indent 4 }}
     env: "{{ .Values.environment }}"
 spec:
   replicas: {{ .Values.replicas }}
